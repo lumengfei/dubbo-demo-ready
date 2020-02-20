@@ -31,6 +31,16 @@
 	</properties>
 	<dependencies>
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 解决冲突的依赖 
 		<dependency>
 			<groupId>javax.validation</groupId>
