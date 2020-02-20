@@ -14,9 +14,34 @@
 <script type="text/javascript" src="/resource/js/jqueryvalidate/jquery.validate.js"></script>
 <script type="text/javascript" src="/resource/js/jqueryvalidate/localization/messages_zh.js"></script>
 </head>
+<script type="text/javascript">
+	function bian(){
+		$("form").submit();
+	}
+	function page(page){
+		$("[name=page]").val(page);
+		bian();
+	}
+</script>
 <body>
-        <table>
+        <table class="table">
         	<thead>
+        		<tr>
+        			<td colspan="10">
+        				<form action="list" method="post">
+        					<input type="hidden" name="page">
+        					开始时间:<input type="date" name="date1" value="${date1}">----
+        					结束时间:<input type="date" name="date2" value="${date2}">
+        					<input type="submit" value="查询">
+        					&emsp;&emsp;
+        					<select  name="dtj"  onchange="bian()">
+        						<option <c:if test="${dtj=='created'}">selected</c:if> value="created">发表时间</option>
+        						<option <c:if test="${dtj=='user_id'}">selected</c:if> value="user_id">作者Id</option>
+        						<option <c:if test="${dtj=='commentCnt'}">selected</c:if> value="commentCnt">评论数量</option>
+        					</select>
+        				</form>
+        			</td>
+        		</tr>
         		<tr>
         			<td>ID</td>
         			<td>标题</td>
@@ -26,7 +51,7 @@
         		</tr>
         	</thead>
         	<tbody>
-        		<c:forEach items="${list}" var="art">
+        		<c:forEach items="${pageinfo.list}" var="art">
         			<tr>
         				<td>${art.id }</td>
         				<td>${art.title }</td>
@@ -36,6 +61,19 @@
         			</tr>
         		</c:forEach>
         	</tbody>
+        	<tfoot>
+        		<tr>
+        			<td colspan="10">
+        				<center>
+        					<c:forEach begin="${pageinfo.pageNum-2>1?pageinfo.pageNum-2:1}" 
+        					end="${pageinfo.pageNum+2<pageinfo.pages?pageinfo.pageNum+2:pageinfo.pages}" 
+        					varStatus="index">
+        					<button onclick="page(${index.index })">${index.index }</button>
+        					</c:forEach>
+        				</center>
+        			</td>
+        		</tr>
+        	</tfoot>
         </table>
 </body>
 </html>
